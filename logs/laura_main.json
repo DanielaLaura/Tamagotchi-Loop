@@ -1,0 +1,20 @@
+[
+  {
+    "timestamp": "2025-09-07T22:26:44.883038",
+    "trigger": "\ud83e\ude9e Loop Reflection",
+    "note": "",
+    "mood": {
+      "stimulation": 0.3,
+      "intensity": 0.5,
+      "energy": 0.5,
+      "curiosity": 0.6000000000000001,
+      "calmness": 0.5,
+      "numbness": 0.0,
+      "obsession": 0.30000000000000004,
+      "performance": 0.4,
+      "withdrawal": 0.1,
+      "control": 0.6,
+      "attention": 0.4
+    }
+  }
+]
