@@ -68,10 +68,12 @@ if st.button("✨ Generate Reflection") and prompt:
     )
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[{"role": "user", "content": styled_prompt}],
-            temperature=0.7
-        )
+    model="gpt-4o",
+    messages=[{"role": "user", "content": styled_prompt}],
+    temperature=0,     # forces greedy, deterministic decoding
+    top_p=1,           # disables nucleus sampling
+    n=1                # return only one completion
+)
         reflection = response.choices[0].message.content.strip()
 
         st.markdown("---")
