@@ -7,6 +7,6 @@ def summarize_logs(logs):
         mood = entry.get("mood", {})
         note = entry.get("note", "")
         reflection = entry.get("reflection", "")
-
         summary += f"- {timestamp}: style={style}, trigger={trigger}, mood={mood}, note={note}, reflection={reflection}\n"
     return summary
+

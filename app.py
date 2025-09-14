@@ -1,7 +1,9 @@
 import streamlit as st
 import os
-from openai import OpenAI
+import json
 from datetime import datetime
+from openai import OpenAI
+from pathlib import Path  # ✅ NEW
 
 from agents.agent_styles import apply_agent_style, get_style_options, get_style_description
 from engine.triggers import select_trigger, get_trigger_prompt
@@ -9,6 +11,8 @@ from memory.summarizer import summarize_logs
 
 st.set_page_config(page_title="Tamagotchi Mood Loop", layout="centered")
 st.title("🧠 Tamagotchi Mood Loop")
+
+LOG_PATH = "logs/reflection_logs.json"  # ✅ UPDATED
 
 # --- API KEY INPUT ---
 openai_api_key = st.text_input("Enter your OpenAI API Key", type="password")
@@ -21,7 +25,6 @@ client = OpenAI(api_key=openai_api_key)
 # --- MOOD STATE SLIDERS ---
 st.subheader("🌡️ Mood Sliders")
 state = {}
-
 mood_names = [
     ("🌊 Calmness Level", "calmness"),
     ("⚡ Energy Level", "energy"),
@@ -49,6 +52,13 @@ st.caption(get_trigger_prompt(trigger))
 st.subheader("💭 Input Prompt")
 prompt = st.text_area("What do you want the agent to reflect on?", height=200)
 
+# --- Load previous logs ---
+if os.path.exists(LOG_PATH):
+    with open(LOG_PATH, "r") as f:
+        persistent_logs = json.load(f)
+else:
+    persistent_logs = []
+
 # --- GENERATE REFLECTION ---
 if st.button("✨ Generate Reflection") and prompt:
     mood_context = ", ".join([f"{k}: {v}" for k, v in state.items()])
@@ -68,17 +78,25 @@ if st.button("✨ Generate Reflection") and prompt:
         st.subheader("🪞 Reflection")
         st.markdown(reflection)
 
-        # Save to session with timestamp
-        if "logs" not in st.session_state:
-            st.session_state.logs = []
-        st.session_state.logs.append({
+        log_entry = {
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "trigger": trigger,
             "reflection": reflection,
             "style": selected_style,
             "mood": state,
             "note": prompt
-        })
+        }
+
+        if "logs" not in st.session_state:
+            st.session_state.logs = []
+        st.session_state.logs.append(log_entry)
+        persistent_logs.append(log_entry)
+
+        # ✅ Ensure logs folder exists
+        Path("logs").mkdir(parents=True, exist_ok=True)
+
+        with open(LOG_PATH, "w") as f:
+            json.dump(persistent_logs, f, indent=2)
 
     except Exception as e:
         st.error(f"Failed to generate reflection:\n\n{e}")
@@ -89,11 +107,8 @@ if "logs" in st.session_state and st.session_state.logs:
     st.subheader("🧾 Reflection Log")
     for entry in reversed(st.session_state.logs):
         timestamp = entry.get("timestamp", "unknown time")
-        trigger = entry.get("trigger", "unknown trigger")
-        style = entry.get("style", "unknown style")
-        reflection = entry.get("reflection", "")
-        st.markdown(f"**Timestamp:** {timestamp}  |  **Trigger:** {trigger}  |  **Style:** {style}")
-        st.markdown(reflection)
+        st.markdown(f"**Timestamp:** {timestamp}  |  **Trigger:** {entry['trigger']}  |  **Style:** {entry['style']}")
+        st.markdown(entry["reflection"])
         st.markdown("---")
 
     # --- SUMMARY ---
