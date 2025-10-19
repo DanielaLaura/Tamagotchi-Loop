@@ -1,6 +1,9 @@
 # 🧠 Tamagotchi Mood Loop
 
-A symbolic reflection app powered by GPT-4o. This interactive Streamlit tool lets you track emotional states, explore symbolic triggers, and generate stylized agent reflections — creating a loop of self-observation and narrative insight.
+A symbolic reflection app powered by GPT-4o. This interactive Streamlit tool is an experimental interface for studying adaptive AI reflection an user emotion modeling.
+
+
+##
 
 ## ✨ Features
 
@@ -72,7 +75,7 @@ You’ll need an [OpenAI API key](https://platform.openai.com/account/api-keys).
 
 ## 🧠 Concept
 
-The Tamagotchi Mood Loop is an emotional feedback engine. You define your symbolic context (mood sliders + trigger), and the agent generates a response. These responses feed back into your state awareness, creating a recursive emotional loop — like a Tamagotchi, but for your subconscious.
+The Tamagotchi Mood Loop is an interactive emotional-feedback prototype that models symobolic context and generates adaptive reflections for cognitive awareness.
 
 ## 🧼 Troubleshooting
 
