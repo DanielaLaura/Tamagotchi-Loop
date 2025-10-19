@@ -8,6 +8,14 @@ It’s not a diary. It’s a **sandbox for observing feedback systems** — huma
 
 ---
 
+## 🪞 About the Project
+
+**Tamagotchi Mood Loop** emerged from my personal experiment on how adaptive systems like LLMs respond to high-context, influence-based prompting.  
+The project formalizes those behavioral loops into an interactive **Streamlit prototype** that models reflection, feedback, and adaptation.  
+It bridges **psychology, data systems, and human-AI interaction**, showing how tone, context, and iterative feedback can shape model behavior over time.
+
+---
+
 ## ✨ Overview
 
 This project blends **data science**, **psychology**, and **AI reflection** to simulate how context and emotion shape behavior.  
